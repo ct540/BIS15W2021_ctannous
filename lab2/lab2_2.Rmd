@@ -83,7 +83,7 @@ Deathly_Hallows_2 <- c(381.0, 960.5)
 ```
 
 Create a new object called `box_office`. Here we are using the `c` command to combine the vectors into one.
-```{r}
+```{r}fac
 box_office <- c(Philosophers_Stone, Chamber_of_Secrets, Prisoner_of_Azkaban, Goblet_of_Fire, Order_of_the_Phoenix, Half_Blood_Prince, Deathly_Hallows_1, Deathly_Hallows_2)
 box_office
 ```
