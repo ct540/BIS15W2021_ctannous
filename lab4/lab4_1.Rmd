@@ -58,6 +58,8 @@ The first package that we will use that is part of the tidyverse is `dplyr`. `dp
 Select allows you to pull out columns of interest from a dataframe. To do this, just add the names of the columns to the `select()` command. The order in which you add them, will determine the order in which they appear in the output.
 ```{r}
 names(fish)
+
+select("lakeid", "scalelength")
 ```
 
 We are only interested in lakeid and scalelength.
