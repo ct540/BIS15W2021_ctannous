@@ -108,7 +108,7 @@ The largest deer is the Moose.
 **10. As measured by the data, which snake species has the smallest homerange? Show all of your work, please. Look this species up online and tell me about it!** **Snake is found in taxon column**    
 ```{r}
 snake <- subset.data.frame( homerange, taxon == "snakes")
-arrange(snake, desc(mean.hra.m2))
+arrange(snake, mean.hra.m2) # if you remove the desc then the output is more clear
 ```
 The namaqua dwarf adder is the snake with the smallest homerange.It is a venomous snake found on the border between Namibia and South Africa.
 ## Push your final code to GitHub!
