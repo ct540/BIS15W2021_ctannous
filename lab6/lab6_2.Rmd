@@ -2,7 +2,7 @@
 title: "summarize practice, `count()`, `across()`"
 date: "`r Sys.Date()`"
 output:
-  html_document:
+  html_document: 
     theme: spacelab
     toc: yes
     toc_float: yes
@@ -59,6 +59,7 @@ penguins %>%
 
 What if we are interested in the number of observations (penguins) by species and island?
 ```{r}
+names(penguins)
 penguins %>% 
   group_by(island, species) %>% 
   summarize(n=n(), .groups= 'keep')#the .groups argument here just prevents a warning message
@@ -103,17 +104,29 @@ penguins %>%
 ## Practice
 1. Produce a summary of the mean for bill_length_mm, bill_depth_mm, flipper_length_mm, and body_mass_g within Adelie penguins only. Be sure to provide the number of samples.
 ```{r}
-
+penguins %>% 
+  filter(species == "Adelie") %>% 
+  summarize(bill_length_mm_mean =mean(bill_length_mm, na.rm = T),
+            bill_depth_mm_mean = mean(bill_depth_mm, na.rm = T),
+            flipper_length_mm_mean = mean(flipper_length_mm, na.rm = T),
+            body_mass_g_mean= mean(body_mass_g, na.rm = T),
+             n=n())
 ```
 
 2. How does the mean of `bill_length_mm` compare between penguin species?
 ```{r}
-
+ penguins %>%
+  group_by(species) %>%
+  summarize(bill_length_mm_mean = mean(bill_length_mm, na.rm = T),
+            n=n())
+  
 ```
 
 3. For some penguins, their sex is listed as NA. Where do these penguins occur?
 ```{r}
-
+penguins %>%
+  group_by(island) %>%
+  is.na(sex)
 ```
 
 ## `across()`

@@ -2,10 +2,11 @@
 title: "dplyr Superhero"
 date: "`r Sys.Date()`"
 output:
-  html_document:
+  html_document: 
     theme: spacelab
     toc: yes
     toc_float: yes
+    keep_md: yes
 ---
 
 ## Breakout Rooms  
@@ -36,7 +37,7 @@ superhero_powers <- readr::read_csv("data/super_hero_powers.csv", na = c("", "-9
 ## Data tidy
 1. Some of the names used in the `superhero_info` data are problematic so you should rename them here.  
 ```{r}
-
+superhero_info <- rename(superhero_info, gender="Gender", eye.color= "Eye color", race ="Race", hair.color="Hair color", height= "Height", publisher= "Publisher", skin.color= "Skin color", alignment= "Alignment", weight= "Weight")
 ```
 
 Yikes! `superhero_powers` has a lot of variables that are poorly named. We need some R superpowers...
@@ -52,36 +53,48 @@ library("janitor")
 
 The `clean_names` function takes care of everything in one line! Now that's a superpower!
 ```{r}
-#superhero_powers <- janitor::clean_names(superhero_powers)
+superhero_powers <- janitor::clean_names(superhero_powers)
+names(superhero_powers)
 ```
 
 ## `tabyl`
 The `janitor` package has many awesome functions that we will explore. Here is its version of `table` which not only produces counts but also percentages. Very handy! Let's use it to explore the proportion of good guys and bad guys in the `superhero_info` data.  
 ```{r}
-#tabyl(superhero_info, alignment)
+tabyl(superhero_info, alignment)
 ```
 
 2. Notice that we have some neutral superheros! Who are they?
 ```{r}
-
+names(superhero_info)
+superhero_info %>%
+  select(name, gender, alignment) %>%
+  filter(alignment == "neutral") %>%
+  arrange(alignment)
 ```
 
 ## `superhero_info`
 3. Let's say we are only interested in the variables name, alignment, and "race". How would you isolate these variables from `superhero_info`?
 ```{r}
+superhero_info %>%
+  select(alignment, race, name)
 
 ```
 
 ## Not Human
 4. List all of the superheros that are not human.
 ```{r}
-
+superhero_info %>%
+  select(race, name) %>%
+  filter(race != "Human")
 ```
 
 ## Good and Evil
 5. Let's make two different data frames, one focused on the "good guys" and another focused on the "bad guys".
 ```{r}
-
+good.guys <- superhero_info %>%
+  filter(alignment == "good") %>%
+  arrange(name)
+good.guys
 ```
 
 6. For the good guys, use the `tabyl` function to summarize their "race".
