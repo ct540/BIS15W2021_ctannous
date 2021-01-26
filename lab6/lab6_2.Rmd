@@ -126,7 +126,7 @@ penguins %>%
 ```{r}
 penguins %>%
   group_by(island) %>%
-  is.na(sex)
+  summarize(number_NAs= sum(is.na(sex)))
 ```
 
 ## `across()`
@@ -181,7 +181,27 @@ penguins %>%
 ## Practice
 1. Produce separate summaries of the mean and standard deviation for bill_length_mm, bill_depth_mm, and flipper_length_mm for each penguin species. Be sure to provide the number of samples.  
 ```{r}
+penguins %>%
+  group_by(species) %>% 
+  summarize(a = across(contains("mm"), mean, na.rm=T), n_sample=n(), 
+            b = across(contains("mm"), sd, na.rm=T), n_sample=n())
+```
+```{r}
+?summarize
+penguins %>%
+  group_by(species) %>% 
+  summarize(across(contains("mm"), mean, na.rm=T), n_sample=n())
+```
+```{r}
+penguins %>%
+  group_by(species) %>% 
+  summarize(across(contains("mm"), sd, na.rm=T), n_sample=n())
 
+```
+```{r}
+penguins %>%
+  group_by(species) %>%
+  summarize(across(contains("mm"), n_distinct))
 ```
 
 
