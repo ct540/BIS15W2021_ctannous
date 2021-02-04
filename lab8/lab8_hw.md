@@ -320,33 +320,26 @@ wide_again
 9. What was the most polluted beach in 2018?
 
 ```r
-sydneybeaches_longdates %>%
-  group_by(year, site) %>%
-  summarise(mean_enterococci = mean(enterococci_cfu_100ml, na.rm = T)) %>%
-  filter(year == 2018) %>%
-  arrange(desc(mean_enterococci))
+wide_again %>%
+  select("2018", site) %>%
+  arrange(desc(.))
 ```
 
 ```
-## `summarise()` has grouped output by 'year'. You can override using the `.groups` argument.
-```
-
-```
-## # A tibble: 11 x 3
-## # Groups:   year [1]
-##    year  site                    mean_enterococci
-##    <chr> <chr>                              <dbl>
-##  1 2018  South Maroubra Rockpool           112.  
-##  2 2018  Little Bay Beach                   59.1 
-##  3 2018  Bronte Beach                       43.4 
-##  4 2018  Malabar Beach                      38.0 
-##  5 2018  Bondi Beach                        22.9 
-##  6 2018  Coogee Beach                       21.6 
-##  7 2018  Gordons Bay (East)                 17.6 
-##  8 2018  Tamarama Beach                     15.5 
-##  9 2018  South Maroubra Beach               12.5 
-## 10 2018  Clovelly Beach                     10.6 
-## 11 2018  Maroubra Beach                      9.21
+## # A tibble: 11 x 2
+##    `2018` site                   
+##     <dbl> <chr>                  
+##  1 112.   South Maroubra Rockpool
+##  2  59.1  Little Bay Beach       
+##  3  43.4  Bronte Beach           
+##  4  38.0  Malabar Beach          
+##  5  22.9  Bondi Beach            
+##  6  21.6  Coogee Beach           
+##  7  17.6  Gordons Bay (East)     
+##  8  15.5  Tamarama Beach         
+##  9  12.5  South Maroubra Beach   
+## 10  10.6  Clovelly Beach         
+## 11   9.21 Maroubra Beach
 ```
 South Maroubra Rockpool was the most polluted beach in 201
 

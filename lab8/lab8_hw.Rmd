@@ -116,11 +116,9 @@ wide_again
 9. What was the most polluted beach in 2018?
 ```{r}
 
-sydneybeaches_longdates %>%
-  group_by(year, site) %>%
-  summarise(mean_enterococci = mean(enterococci_cfu_100ml, na.rm = T)) %>%
-  filter(year == 2018) %>%
-  arrange(desc(mean_enterococci))
+wide_again %>%
+  select("2018", site) %>%
+  arrange(desc(.))
 
 
 ```
