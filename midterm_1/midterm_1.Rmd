@@ -29,10 +29,12 @@ library(janitor)
 ## Questions
 **1. (2 points) Briefly explain how R, RStudio, and GitHub work together to make work flows in data science transparent and repeatable. What is the advantage of using RMarkdown in this context?**  
 
-R is the programming language that is used in Rstudio. Github is used to upload the R programs to the internet, to make them accesible for others to view and learn from. Rmarkdown makes the code easier to look as its formatted in a html file.
+R is the programming language that is used in Rstudio. Github is used to upload the R programs to the internet, to make them accesible for others to view and learn from. Rmarkdown makes the code easier to look as its formatted in a `html` file.  
+
+_There are lots of output options in RStudio including pdf and even MSword._
 
 **2. (2 points) What are the three types of `data structures` that we have discussed? Why are we using data frames for BIS 15L?**
-Data frames, vectors, and matrcies are the three data structures that have been discussed. The data frames are most frequently used because they are the easiest to work with, as they compile lots of observations. Additionally, using the dpylr functions make data frames more convient to use. 
+Data frames, vectors, and matrices are the three data structures that have been discussed. The data frames are most frequently used because they are the easiest to work with, as they compile lots of observations. Additionally, using the `dpylr` functions make data frames more convenient to use.  
 
 In the midterm 1 folder there is a second folder called `data`. Inside the `data` folder, there is a .csv file called `ElephantsMF`. These data are from Phyllis Lee, Stirling University, and are related to Lee, P., et al. (2013), "Enduring consequences of early experiences: 40-year effects on survival and success among African elephants (Loxodonta africana)," Biology Letters, 9: 20130011. [kaggle](https://www.kaggle.com/mostafaelseidy/elephantsmf).  
 
@@ -43,6 +45,7 @@ elephants <- readr::read_csv("data/ElephantsMF.csv")
 ```{r}
 glimpse(elephants)
 ```
+
 **4. (2 points) Change the names of the variables to lower case and change the class of the variable `sex` to a factor.**
 ```{r}
 elephants <- clean_names(elephants)
@@ -65,7 +68,7 @@ elephants %>%
   select(age) %>%
   summarise(average.age = mean(age))
 ```
-The average age is 10.97
+The average age is 10.97.  
 
 **7. (2 points) How does the average age and height of elephants compare by sex?**
 ```{r}
@@ -74,8 +77,7 @@ elephants %>%
   group_by(sex) %>%
   summarize(across(c(age, height), mean,na.rm = T))
 ```
-Females are typically taller, and have a higher average age. 
-
+Females are typically taller, and have a higher average age.  
 
 **8. (2 points) How does the average height of elephants compare by sex for individuals over 25 years old. Include the min and max height as well as the number of individuals in the sample as part of your analysis.**
 ```{r}
@@ -85,8 +87,9 @@ elephants %>%
   group_by(sex) %>%
   summarize(mean.height = mean(height),
             max.height = max(height),
-            min.height = min(height)
-        , n_sample=n())
+            min.height = min(height), 
+            n_sample=n()
+            )
 ```
 It seems like as elephants grow older, male elephants grow taller than female elephants. However, its important to realize that the sample size for male elephants is a bit smaller
 
@@ -119,24 +122,24 @@ vertebrate %>%
   group_by(hunt_cat) %>%
   summarise(across(c(diversity_bird_species, diversity_mammal_species),mean, na.rm = T ))
 ```
-The high intensity has a greater diveristy in bird species and diversity mammal species. 
+The high intensity has a greater diveristy in bird species and diversity mammal species.   
 
 **11. (4 points) One of the conclusions in the study is that the relative abundance of animals drops off the closer you get to a village. Let's try to reconstruct this (without the statistics). How does the relative abundance (RA) of apes, birds, elephants, monkeys, rodents, and ungulates compare between sites that are less than 5km from a village to sites that are greater than 20km from a village? The variable `Distance` measures the distance of the transect from the nearest village. Hint: try using the `across` operator.**  
 ```{r}
 vertebrate %>%
   mutate(r.distance = case_when( distance < 5 ~ "Less than 5 km", distance > 20 ~ "Greater than 20km")) %>%
   group_by(r.distance) %>%
-    filter(!is.na(r.distance)) %>%
+  filter(!is.na(r.distance)) %>%
   summarise(across(starts_with("ra"), mean, na.rm = T))
-            
 ```
-It seems like the apes have a higher RA value the farther they are from the village.
+It seems like the apes have a higher RA value the farther they are from the village.  
+
+_Very nice application of case_when._  
 
 **12. (4 points) Based on your interest, do one exploratory analysis on the `gabon` data of your choice. This analysis needs to include a minimum of two functions in `dplyr.`**
 ```{r}
 vertebrate %>%
  summarise(across(starts_with("ra"), max, na.rm = T))
-
 ```
 
-My code shows the maximum values across all the relative abudance values. From this you can see that monkeys have the highest relative abudance rate.
+My code shows the maximum values across all the relative abundance values. From this you can see that monkeys have the highest relative abundance rate.
