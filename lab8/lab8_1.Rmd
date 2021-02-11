@@ -80,14 +80,19 @@ heartrate %>%
 ## Practice
 1. Import the file `relig_income.csv` and store it as a new object `relig_income`.  
 ```{r}
-
+relig_income <- read_csv("data/relig_income.csv")
+relig_income
 ```
 2. Why are these data untidy?  
-
+The data is untidy because it does not meet the very first two requirements. Income being grouped into different variables when it could just be one. Column names 
 
 3. Use `pivot_longer()` to make the data tidy.  
 ```{r}
-
+relig_income %>%
+  pivot_longer(-religion,
+               values_to = "count",
+               names_to = "income"
+               )
 ```
 
 ## Example 2: some column names are data
@@ -135,6 +140,8 @@ billboard %>%
 ## Practice  
 1. Import `plant_data.csv` as a new object `plant_data`.  
 ```{r}
+plant_data<- read_csv("data/plant_data.csv")
+plant_data
 
 ```
 
@@ -143,7 +150,14 @@ billboard %>%
 
 3. Use `pivot_longer()` to make the data tidy. Focus the data only on genotype, day, and measurement.  
 ```{r}
-
+plant_data %>%
+  pivot_longer(
+    cols= starts_with("day"),
+    names_to = "day",
+    names_prefix= "day",
+    values_to = "measurement"
+  ) %>%
+  select(genotype, day, measurement)
 ```
 
 ## Example 3: more than one variable in a column name
