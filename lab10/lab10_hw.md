@@ -1,7 +1,7 @@
 ---
 title: "Lab 10 Homework"
 author: "Chloe Tannous"
-date: "2021-02-10"
+date: "2021-02-15"
 output:
   html_document: 
     theme: spacelab
@@ -33,7 +33,7 @@ deserts <- read_csv(here("lab10", "data", "surveys_complete.csv"))
 
 ```
 ## 
-## ── Column specification ────────────────────────────────────────────────────────
+## -- Column specification --------------------------------------------------------
 ## cols(
 ##   record_id = col_double(),
 ##   month = col_double(),
@@ -72,7 +72,7 @@ deserts
 ##  8         8     7    16  1977       1 DM         M                  37     NA
 ##  9         9     7    16  1977       1 DM         F                  34     NA
 ## 10        10     7    16  1977       6 PF         F                  20     NA
-## # … with 34,776 more rows, and 4 more variables: genus <chr>, species <chr>,
+## # ... with 34,776 more rows, and 4 more variables: genus <chr>, species <chr>,
 ## #   taxa <chr>, plot_type <chr>
 ```
 
@@ -310,6 +310,10 @@ deserts %>%
 
 ![](lab10_hw_files/figure-html/unnamed-chunk-14-1.png)<!-- -->
 
+<style>
+div.blue { background-color:#e6f0ff; border-radius: 5px; padding: 20px;}
+</style>
+<div class = "blue">
 
 9. Which two species have, on average, the highest weight? Once you have identified them, make a new column that is a ratio of `weight` to `hindfoot_length`. Make a plot that shows the range of this new ratio and fill by sex.
 
@@ -335,7 +339,7 @@ deserts %>%
 ##  8 merriami           43.2
 ##  9 baileyi            31.7
 ## 10 leucogaster        31.6
-## # … with 12 more rows
+## # ... with 12 more rows
 ```
 
 ```r
@@ -362,9 +366,10 @@ deserts_avg
 ##  8       392    11    13  1977      11 DS         F                  53    122
 ##  9       394    11    13  1977       4 DS         F                  48    107
 ## 10       398    11    13  1977       4 DS         F                  50    115
-## # … with 3,058 more rows, and 5 more variables: genus <chr>, species <chr>,
+## # ... with 3,058 more rows, and 5 more variables: genus <chr>, species <chr>,
 ## #   taxa <chr>, plot_type <chr>, weight_hindfoot_ratio <dbl>
 ```
+</div>
 
 10. Make one plot of your choice! Make sure to include at least two of the aesthetics options you have learned.
 
