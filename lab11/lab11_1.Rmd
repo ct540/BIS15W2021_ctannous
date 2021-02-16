@@ -30,8 +30,10 @@ Please make sure that you have 1-2 data sets to share with your group member dur
 ## Install `RColorBrewer` and `paletteer`
 `RColorBrewer` and `paletteer` are helpful in selecting palettes of color that work with your data. Please install these now, we will work with them in part 2 of today's lab.
 ```{r, eval=FALSE, echo=TRUE}
-#install.packages("RColorBrewer")
-#install.packages("paletteer")
+install.packages("RColorBrewer")
+install.packages("paletteer")
+install.packages("magrittr")
+
 ```
 
 ## Load the libraries
@@ -41,6 +43,7 @@ library(RColorBrewer)
 library(paletteer)
 library(janitor)
 library(here)
+library(magrittr)
 ```
 
 ```{r}
@@ -100,7 +103,7 @@ homerange %>%
 
 Let's play with the colors. This shows all 657 of R's built-in colors. Notice that `color` and `fill` do different things!
 ```{r}
-#grDevices::colors()
+grDevices::colors()
 ```
 
 ## Density plots  
@@ -124,23 +127,34 @@ homerange %>%
 ## Practice
 1. Make a histogram of `log10.hra`. Make sure to add a title.
 ```{r}
+homerange %>% 
+  ggplot(aes(x = log10.hra)) +
+  geom_histogram(alpha = 0.6, color = "black", fill = "deeppink4", bins=40)+
+  labs(title = "Distribution of Body Mass")
 
 ```
 
 2. Now plot the same variable using `geom_density()`.
 ```{r}
-
+homerange %>% 
+  ggplot(aes(x = log10.hra)) +
+  geom_density(fill="steelblue", alpha  =0.6, color = "black")+
+  labs(title = "Distribution of Body Mass")
 ```
 
 3. Combine them both!
 ```{r}
-
+homerange %>% 
+  ggplot(aes(x=log10.hra)) +
+  geom_histogram(aes(y = ..density..), binwidth = .4, fill = "steelblue", alpha = 0.8, color = "black")+
+  geom_density(color = "red")+
+  labs(title = "Distribution of Body Mass")
 ```
 
 ## Create Categories with mutate and case_when()
 `case_when()` is a very handy function from `dplyr` which allows us to calculate a new variable from other variables. We use `case_when()` within `mutate()` to do this.`case_when()` allows us to specify multiple conditions. Let's reclassify the body mass variable into a new factor variable with small, medium, and large animals. 
 ```{r}
-#glimpse(homerange)
+glimpse(homerange)
 ```
 
 ```{r}
@@ -175,11 +189,15 @@ homerange %>%
 ```
 
 ```{r}
+library(gtools)
+quartiles <- quantcut(homerange$log10.hra)
+table(quartiles)
 
 ```
 
 ```{r}
-
+homerange <- homerange %>%
+  select(log10.hra)
 ```
 
 2. How many and which taxonomic classes are represented in each of the `range_category` classes?

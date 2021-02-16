@@ -129,6 +129,7 @@ p+scale_fill_brewer(palette = "Paired")+
 You can also use `paleteer` to build a custom palette for consistency. To access the `paleteer` collection, I add it to a new object.
 ```{r}
 colors <- paletteer::palettes_d_names
+view(colors)
 ```
 
 Now we can display the palettes. Assign the palette to `my_palette` and then build this base R bar plot. There are a lot of options; `paleteer` is a collection of popular palettes. I really like the [`ggsci` package] (https://cran.r-project.org/web/packages/ggsci/vignettes/ggsci.html)
@@ -178,6 +179,7 @@ homerange %>%
 p2 <- homerange %>% 
   ggplot(aes(x = log10.mass)) +
   geom_density()
+p2
 ```
 
 ```{r}
@@ -188,6 +190,11 @@ p2+ facet_wrap(~taxon)
 As you can imagine, there are lots of options for faceting. Another useful facet type is `facet_grid`. 
 ```{r}
 p2+facet_grid(thermoregulation~class)
+```
+
+```{r}
+getwd()
+
 ```
 
 ## That's it, let's take a break!   
