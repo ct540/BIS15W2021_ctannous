@@ -1,7 +1,7 @@
 ---
 title: "Lab 11 Homework"
 author: "Chloe Tannous"
-date: "2021-02-15"
+date: "2021-02-18"
 output:
   html_document: 
     theme: spacelab
@@ -131,7 +131,7 @@ gapminder
 ##  8 Afghanistan Asia       1987     40.8 13867957       852.
 ##  9 Afghanistan Asia       1992     41.7 16317921       649.
 ## 10 Afghanistan Asia       1997     41.8 22227415       635.
-## # … with 1,694 more rows
+## # ... with 1,694 more rows
 ```
 
 ```r
@@ -237,7 +237,7 @@ gapminder%>%
 ##  8 1957  Asia               49.3         67.8          30.3
 ##  9 1957  Europe             66.7         73.5          48.1
 ## 10 1957  Oceania            70.3         70.3          70.3
-## # … with 50 more rows
+## # ... with 50 more rows
 ```
 
 ```r
@@ -252,6 +252,10 @@ gapminder%>%
 ```
 
 ![](lab11_hw_files/figure-html/unnamed-chunk-12-1.png)<!-- -->
+<style>
+div.blue { background-color:#e6f0ff; border-radius: 5px; padding: 20px;}
+</style>
+<div class = "blue">
 
 **5. How has life expectancy changed between 1952-2007 for each continent?**
 
@@ -272,6 +276,8 @@ gapminder %>%
 ```
 
 ![](lab11_hw_files/figure-html/unnamed-chunk-13-1.png)<!-- -->
+</div>
+
 **6. We are interested in the relationship between per capita GDP and life expectancy; i.e. does having more money help you live longer?**
 
 ```r
@@ -318,7 +324,7 @@ growth
 ##  8 Nigeria       Africa    2007      46.9  135031164      2014.  101912068
 ##  9 Mexico        Americas  2007      76.2  108700891     11978.   78556574
 ## 10 Philippines   Asia      2007      71.7   91077287      3190.   68638596
-## # … with 274 more rows
+## # ... with 274 more rows
 ```
 
 **8. Use your results from the question above to plot population growth for the top five countries since 1952.**
