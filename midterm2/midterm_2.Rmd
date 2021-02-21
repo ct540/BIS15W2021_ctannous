@@ -1,6 +1,11 @@
 ---
+output: 
+  html_document: 
+    keep_md: yes
+---
+                                                                                                                                                                                                                ---
 title: "Midterm 2"
-author: "Please Add Your Name Here"
+author: "Chloe Tannous"
 date: "`r Sys.Date()`"
 output:
   html_document:
@@ -32,45 +37,71 @@ For this assignment, we are going to use data from  [gapminder](https://www.gapm
 
 One thing to note is that the data include years beyond 2021. These are projections based on modeling done by the gapminder organization. Start by importing the data.
 ```{r}
-population <- read_csv(here("data", "population_total.csv"))
+population <- read_csv("data/population_total.csv")
 population
 ```
 
 ```{r}
-income <- read_csv(here("data", "income_per_person_gdppercapita_ppp_inflation_adjusted.csv"))
+income <- read_csv("data/income_per_person_gdppercapita_ppp_inflation_adjusted.csv")
 income
 ```
 
 ```{r}
-life_expectancy <- read_csv(here("data", "life_expectancy_years.csv"))
+life_expectancy <- read_csv("data/life_expectancy_years.csv")
 life_expectancy
 ```
 
 1. (3 points) Once you have an idea of the structure of the data, please make each data set tidy and store them as new objects. You will need both the original and tidy data!
 ```{r}
+population_tidy <- population %>%
+   pivot_longer(-country,
+               names_to = "year", 
+               values_to = "population"
+               )
+population_tidy
+  
+```
+
+```{r}
+income_tidy <- income %>%
+   pivot_longer(-country,
+               names_to = "year", 
+               values_to = "income"
+               )
+income_tidy
 
 ```
 
 ```{r}
-
-```
-
-```{r}
+life_expectancy_tidy <- life_expectancy %>%
+     pivot_longer(-country,
+               names_to = "year", 
+               values_to = "life_exp"
+               )
+life_expectancy_tidy
 
 ```
 
 2. (1 point) How many different countries are represented in the data? Provide the total number and their names. Since each data set includes different numbers of countries, you will need to do this for each one.
 ```{r}
-
+population %>%
+  select(country)
 ```
+195 countries represented in the population dataset
 
 ```{r}
+income %>%
+  select(country)
 
 ```
+193 countries represented in the income data set 
+
 
 ```{r}
-
+life_expectancy %>%
+  select(country)
 ```
+187 countries represented in the life expectancy data 
 
 ## Life Expectancy  
 
@@ -78,27 +109,51 @@ life_expectancy
 
 Highest
 ```{r}
-
+life_expectancy_tidy %>%
+  filter( year <= 2020, year >= 1920) %>%
+  group_by(country) %>%
+  summarise(mean_life_exp = mean(life_exp)) %>%
+  arrange(desc(mean_life_exp))
 ```
 
 Lowest
 ```{r}
-
+life_expectancy_tidy %>%
+  filter( year <= 2020, year >= 1920) %>%
+  group_by(country) %>%
+  summarise(mean_life_exp = mean(life_exp)) %>%
+  arrange(mean_life_exp)
 ```
 
 4. (3 points) Although we can see which country has the highest life expectancy for the past 100 years, we don't know which countries have changed the most. What are the top 5 countries that have experienced the biggest improvement in life expectancy between 1920-2020?
 ```{r}
+life_expectancy_tidy %>%
+  filter( year == 2020 | year == 1920) %>%
+  pivot_wider(
+    names_from = "year", names_prefix = "yr_",
+             values_from = "life_exp") %>%
+  mutate(difference = yr_2020 - yr_1920 ) %>%
+  arrange(desc(difference))
+
 
 ```
 
 ```{r}
-
+life_expectancy_tidy %>%
+  filter(year == 1920) 
 ```
 
 5. (3 points) Make a plot that shows the change over the past 100 years for the country with the biggest improvement in life expectancy. Be sure to add appropriate aesthetics to make the plot clean and clear. Once you have made the plot, do a little internet searching and see if you can discover what historical event may have contributed to this remarkable change.  
 
 ```{r}
-
+life_expectancy_tidy %>%
+  filter( country == "Kuwait", year <= 2020, year >= 1920 ) %>%
+  ggplot(aes(x=year, y= life_exp, color = year))+
+  geom_point()+
+ theme(legend.position = "none", axis.text.x = element_text(angle = 60, hjust = 2), plot.title = element_text(size = rel(2), hjust = .5)) +
+  labs(title = "Kuwait Life Expectancy",
+       x = "Year",
+       y= "Age")
 ```
 
 ## Population Growth
