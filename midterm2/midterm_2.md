@@ -6,7 +6,7 @@ output:
                                                                                                                                                                                                                 ---
 title: "Midterm 2"
 author: "Chloe Tannous"
-date: "2021-02-20"
+date: "2021-02-22"
 output:
   html_document:
     theme: spacelab
@@ -69,6 +69,7 @@ library(here)
 ```
 
 ```r
+library(paletteer)
 options(scipen=999) #disables scientific notation when printing
 ```
 
@@ -467,48 +468,25 @@ life_expectancy_tidy %>%
     names_from = "year", names_prefix = "yr_",
              values_from = "life_exp") %>%
   mutate(difference = yr_2020 - yr_1920 ) %>%
-  arrange(desc(difference))
+  top_n(5) %>%
+  arrange(desc(difference)) 
 ```
 
 ```
-## # A tibble: 187 x 4
-##    country         yr_1920 yr_2020 difference
-##    <chr>             <dbl>   <dbl>      <dbl>
-##  1 Kuwait             26.6    83.4       56.8
-##  2 Kyrgyz Republic    16.6    73.1       56.5
-##  3 Turkmenistan       15.2    70.5       55.3
-##  4 South Korea        28.2    83.2       55  
-##  5 Tajikistan         16.7    71         54.3
-##  6 Nicaragua          25.3    79.5       54.2
-##  7 Kazakhstan         19.3    73.1       53.8
-##  8 Russia             20.5    72.7       52.2
-##  9 Israel             32      83.4       51.4
-## 10 Iran               26.8    78         51.2
-## # … with 177 more rows
-```
-
-
-```r
-life_expectancy_tidy %>%
-  filter(year == 1920) 
+## Selecting by difference
 ```
 
 ```
-## # A tibble: 187 x 3
-##    country             year  life_exp
-##    <chr>               <chr>    <dbl>
-##  1 Afghanistan         1920      30.6
-##  2 Albania             1920      35.4
-##  3 Algeria             1920      29.6
-##  4 Andorra             1920      NA  
-##  5 Angola              1920      30.4
-##  6 Antigua and Barbuda 1920      33.9
-##  7 Argentina           1920      49.9
-##  8 Armenia             1920      27  
-##  9 Australia           1920      60.6
-## 10 Austria             1920      50.3
-## # … with 177 more rows
+## # A tibble: 5 x 4
+##   country         yr_1920 yr_2020 difference
+##   <chr>             <dbl>   <dbl>      <dbl>
+## 1 Kuwait             26.6    83.4       56.8
+## 2 Kyrgyz Republic    16.6    73.1       56.5
+## 3 Turkmenistan       15.2    70.5       55.3
+## 4 South Korea        28.2    83.2       55  
+## 5 Tajikistan         16.7    71         54.3
 ```
+
 
 5. (3 points) Make a plot that shows the change over the past 100 years for the country with the biggest improvement in life expectancy. Be sure to add appropriate aesthetics to make the plot clean and clear. Once you have made the plot, do a little internet searching and see if you can discover what historical event may have contributed to this remarkable change.  
 
@@ -516,7 +494,8 @@ life_expectancy_tidy %>%
 ```r
 life_expectancy_tidy %>%
   filter( country == "Kuwait", year <= 2020, year >= 1920 ) %>%
-  ggplot(aes(x=year, y= life_exp, color = year))+
+  ggplot(aes(x=year, y= life_exp, color = year, group = 1))+
+  geom_line() +
   geom_point()+
  theme(legend.position = "none", axis.text.x = element_text(angle = 60, hjust = 2), plot.title = element_text(size = rel(2), hjust = .5)) +
   labs(title = "Kuwait Life Expectancy",
@@ -524,38 +503,174 @@ life_expectancy_tidy %>%
        y= "Age")
 ```
 
-![](midterm_2_files/figure-html/unnamed-chunk-15-1.png)<!-- -->
+![](midterm_2_files/figure-html/unnamed-chunk-14-1.png)<!-- -->
+
+The gulf war ending may have something to do with the life expectancy suddenly increasing in Kuwait
 
 ## Population Growth
 6. (3 points) Which 5 countries have had the highest population growth over the past 100 years (1920-2020)?
 
+```r
+population_tidy %>%
+  filter( year == 2020 | year == 1920) %>%
+  pivot_wider(
+    names_from = "year", names_prefix = "yr_",
+             values_from = "population") %>%
+  mutate(difference = yr_2020 - yr_1920 ) %>%
+  top_n(5) %>%
+  arrange(desc(difference)) 
+```
+
+```
+## Selecting by difference
+```
+
+```
+## # A tibble: 5 x 4
+##   country         yr_1920    yr_2020 difference
+##   <chr>             <dbl>      <dbl>      <dbl>
+## 1 India         317000000 1380000000 1063000000
+## 2 China         472000000 1440000000  968000000
+## 3 Indonesia      47300000  274000000  226700000
+## 4 United States 111000000  331000000  220000000
+## 5 Pakistan       21700000  221000000  199300000
+```
 
 7. (4 points) Produce a plot that shows the 5 countries that have had the highest population growth over the past 100 years (1920-2020). Which countries appear to have had exponential growth?  
 
+```r
+palette <- paletteer_d("wesanderson::Moonrise3")
+```
+
+```r
+population_tidy %>%
+filter(between(year, 1920, 2020)) %>%
+  filter(country == "India" | country == "China" | country == "Indonesia" | country == "United States" | country == "Pakistan") %>%
+   ggplot(aes(x=year, y= log10(population), color = country, group = country))+
+  geom_line() +
+  geom_point(size = 1, na.rm = T) +
+  scale_x_discrete(breaks=c(1920,1945, 1970,1995, 2020)) +
+  scale_color_manual(values = palette) +
+  theme(axis.text.x = element_text(hjust = 1), plot.title = element_text(size = rel(2), hjust = .5)) +
+  labs(title = "Top 5 Countries Population Growth",
+       x = "Year",
+       y= "Log 10 Population")
+```
+
+![](midterm_2_files/figure-html/unnamed-chunk-17-1.png)<!-- -->
+
+India and China have exponential growth
 
 ## Income
 The units used for income are gross domestic product per person adjusted for differences in purchasing power in international dollars.
 
 8. (4 points) As in the previous questions, which countries have experienced the biggest growth in per person GDP. Show this as a table and then plot the changes for the top 5 countries. With a bit of research, you should be able to explain the dramatic downturns of the wealthiest economies that occurred during the 1980's.
 
+```r
+income_tidy %>%
+  filter( year == 2020 | year == 1920) %>%
+  pivot_wider(
+    names_from = "year", names_prefix = "yr_",
+             values_from = "income") %>%
+  mutate(difference = yr_2020 - yr_1920 ) %>%
+  top_n(5) %>%
+  arrange(desc(difference)) 
+```
+
+```
+## Selecting by difference
+```
+
+```
+## # A tibble: 5 x 4
+##   country    yr_1920 yr_2020 difference
+##   <chr>        <dbl>   <dbl>      <dbl>
+## 1 Qatar         2300  116000     113700
+## 2 Luxembourg    5730   95100      89370
+## 3 Singapore     2440   90500      88060
+## 4 Brunei        2130   75100      72970
+## 5 Ireland       5170   74100      68930
+```
+
+```r
+income_tidy %>%
+filter(between(year, 1920, 2020)) %>%
+  filter(country == "Qatar" | country == "Luxembourg" | country == "Singapore" | country == "Brunei" | country == "Ireland") %>%
+   ggplot(aes(x=year, y= income, color = country, group = country))+
+  geom_line() +
+  geom_point(size = 1, na.rm = T) +
+  scale_x_discrete(breaks=c(1920,1945, 1970,1995, 2020)) +
+  scale_color_manual(values = palette) +
+  theme(axis.text.x = element_text(hjust = 1), plot.title = element_text(size = rel(2), hjust = .5)) +
+  labs(title = "Top 5 Countries Income Growth",
+       x = "Year",
+       y= "Income")
+```
+
+![](midterm_2_files/figure-html/unnamed-chunk-19-1.png)<!-- -->
+There was an economic recession in 1980, triggered by the 1979 energy crisis
 
 9. (3 points) Create three new objects that restrict each data set (life expectancy, population, income) to the years 1920-2020. Hint: I suggest doing this with the long form of your data. Once this is done, merge all three data sets using the code I provide below. You may need to adjust the code depending on how you have named your objects. I called mine `life_expectancy_100`, `population_100`, and `income_100`. For some of you, learning these `joins` will be important for your project.  
 
 life_expectancy_100
 
+```r
+life_expectancy_100 <- life_expectancy_tidy %>%
+  filter(between(year, 1920, 2020))
+```
 
 population_100
 
+```r
+population_100 <- population_tidy%>%
+  filter(between(year, 1920, 2020))
+```
 
 income_100
 
+```r
+income_100 <- income_tidy %>%
+  filter(between(year, 1920, 2020))
+```
 
 
 ```r
-#gapminder_join <- inner_join(life_expectancy_100, population_100, by= c("country", "year"))
-#gapminder_join <- inner_join(gapminder_join, income_100, by= c("country", "year"))
-#gapminder_join
+gapminder_join <- inner_join(life_expectancy_100, population_100, by= c("country", "year"))
+gapminder_join <- inner_join(gapminder_join, income_100, by= c("country", "year"))
+gapminder_join
+```
+
+```
+## # A tibble: 18,887 x 5
+##    country     year  life_exp population income
+##    <chr>       <chr>    <dbl>      <dbl>  <dbl>
+##  1 Afghanistan 1920      30.6   10600000   1490
+##  2 Afghanistan 1921      30.7   10500000   1520
+##  3 Afghanistan 1922      30.8   10300000   1550
+##  4 Afghanistan 1923      30.8    9710000   1570
+##  5 Afghanistan 1924      30.9    9200000   1600
+##  6 Afghanistan 1925      31      8720000   1630
+##  7 Afghanistan 1926      31      8260000   1650
+##  8 Afghanistan 1927      31.1    7830000   1680
+##  9 Afghanistan 1928      31.1    7420000   1710
+## 10 Afghanistan 1929      31.2    7100000   1740
+## # … with 18,877 more rows
 ```
 
 10. (4 points) Use the joined data to perform an analysis of your choice. The analysis should include a comparison between two or more of the variables `life_expectancy`, `population`, or `income.`
 
+```r
+gapminder_join %>%
+  filter(country == "Mexico" | country == "United States" | country == "Canada") %>%
+  filter(between(year, 1920, 2020)) %>%
+  ggplot(aes(x=income, y= life_exp, group = country, color = country))+
+  geom_line() +
+  geom_point( size = .2)+
+  theme(axis.text.x = element_text(hjust = 1), plot.title = element_text(size = rel(2), hjust = .5)) +
+  labs(title = "Life Expectancy vs Income in 3 Countries",
+       x = "Income",
+       y= "Life Expectancy")
+```
+
+![](midterm_2_files/figure-html/unnamed-chunk-24-1.png)<!-- -->
+The graph shows that a income increases so does life expectancy. It also reveals that the United States and Canada seem to have a average higher income than Mexico. The graph encompases data collected from 1920-2020.
