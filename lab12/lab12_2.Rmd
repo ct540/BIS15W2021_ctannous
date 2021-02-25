@@ -2,10 +2,11 @@
 title: "Intro to Spatial Data"
 date: "`r Sys.Date()`"
 output:
-  html_document:
+  html_document: 
     theme: spacelab
     toc: yes
     toc_float: yes
+    keep_md: yes
   pdf_document:
     toc: yes
 ---
@@ -24,9 +25,7 @@ If you completed part 1 of today's lab then you should have the following packag
 
 `devtools` and `ggmap`
 ```{r}
-#install.packages("devtools")
-#library(devtools)
-#devtools::install_github("dkahle/ggmap")
+
 ```
 
 `albersusa`
@@ -40,6 +39,7 @@ library(tidyverse)
 library(here)
 library(janitor)
 library(ggmap)
+library(svglite)
 ```
 
 Let's load our processed data from the first part of the lab.
@@ -101,6 +101,10 @@ ggmap(map1) +
 ## Albers USA
 The Albers USA [package](https://github.com/hrbrmstr/albersusa) is a very fast way to produce clean maps that include nice overlays of counties across the US. I haven't explored it fully, but here are some nice examples.
 ```{r}
+library(remotes)
+```
+```{r}
+remotes::install_gitlab("hrbrmstr/albersusa")
 library(albersusa)
 ```
 
@@ -162,13 +166,26 @@ ggplot() +
   theme(panel.grid = element_blank()) +
   theme(legend.position = c(0.9, 0.3)) -> uso_map
 
+```
+
+
+```{r}
+
+library(svglite)
+
+```
+
+```{r}
+
 ggsave(filename = "map.svg", device = "svg", plot = uso_map, height = 5, width = 7)
 ```
 
 ## Practice
 1. Make a new new column that labels each specimen as occuring in a cave or on the surface. The word "Cave" is part of the locality information.
 ```{r}
-
+spiders <- spiders %>% 
+  mutate(troglo=if_else(str_detect(locality, "Cave"), "troglo", "epig"))
+spiders
 ```
 
 2. Now adjust the plot abot to give a different color for specimens that occur in caves.
