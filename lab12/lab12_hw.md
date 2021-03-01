@@ -1,7 +1,7 @@
 ---
 title: "Lab 12 Homework"
 author: "Chloe Tannous"
-date: "2021-02-24"
+date: "2021-03-01"
 output:
   html_document: 
     theme: spacelab
@@ -39,7 +39,7 @@ grizzly <- readr::read_csv("data/bear-sightings.csv")
 
 ```
 ## 
-## ── Column specification ────────────────────────────────────────────────────────
+## -- Column specification --------------------------------------------------------
 ## cols(
 ##   bear.id = col_double(),
 ##   longitude = col_double(),
@@ -55,9 +55,9 @@ glimpse(grizzly)
 ```
 ## Rows: 494
 ## Columns: 3
-## $ bear.id   <dbl> 7, 57, 69, 75, 104, 108, 115, 116, 125, 135, 137, 162, 185,…
-## $ longitude <dbl> -148.9560, -152.6228, -144.9374, -152.8485, -143.2948, -149…
-## $ latitude  <dbl> 62.65822, 58.35064, 62.38227, 59.90122, 61.07311, 62.91605,…
+## $ bear.id   <dbl> 7, 57, 69, 75, 104, 108, 115, 116, 125, 135, 137, 162, 185, ~
+## $ longitude <dbl> -148.9560, -152.6228, -144.9374, -152.8485, -143.2948, -149.~
+## $ latitude  <dbl> 62.65822, 58.35064, 62.38227, 59.90122, 61.07311, 62.91605, ~
 ```
 
 
@@ -200,7 +200,7 @@ wolf_data <- readr::read_csv("data/wolves_data/wolves_dataset.csv")
 
 ```
 ## 
-## ── Column specification ────────────────────────────────────────────────────────
+## -- Column specification --------------------------------------------------------
 ## cols(
 ##   .default = col_double(),
 ##   pop = col_character(),
@@ -208,7 +208,7 @@ wolf_data <- readr::read_csv("data/wolves_data/wolves_dataset.csv")
 ##   sex = col_character(),
 ##   color = col_character()
 ## )
-## ℹ Use `spec()` for the full column specifications.
+## i Use `spec()` for the full column specifications.
 ```
 
 ```r
