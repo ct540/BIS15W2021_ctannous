@@ -140,7 +140,10 @@ life_expectancy_tidy %>%
 
 ```
 
-
+<style>
+div.blue { background-color:#e6f0ff; border-radius: 5px; padding: 20px;}
+</style>
+<div class = "blue">
 5. (3 points) Make a plot that shows the change over the past 100 years for the country with the biggest improvement in life expectancy. Be sure to add appropriate aesthetics to make the plot clean and clear. Once you have made the plot, do a little internet searching and see if you can discover what historical event may have contributed to this remarkable change.  
 
 ```{r}
@@ -156,6 +159,7 @@ life_expectancy_tidy %>%
 ```
 
 The gulf war ending may have something to do with the life expectancy suddenly increasing in Kuwait
+</div>
 
 ## Population Growth
 6. (3 points) Which 5 countries have had the highest population growth over the past 100 years (1920-2020)?
@@ -266,4 +270,4 @@ gapminder_join %>%
        x = "Income",
        y= "Life Expectancy")
 ```
-The graph shows that a income increases so does life expectancy. It also reveals that the United States and Canada seem to have a average higher income than Mexico. The graph encompases data collected from 1920-2020.
+The graph shows that a income increases so does life expectancy. It also reveals that the United States and Canada seem to have a average higher income than Mexico. The graph encompasses data collected from 1920-2020.
